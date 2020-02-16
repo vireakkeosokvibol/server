@@ -7,5 +7,4 @@ export class CatDto {
 
   @Field(() => Int)
   readonly age: number;
-
 }
