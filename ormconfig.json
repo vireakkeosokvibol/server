@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": null,
+  "username": "",
+  "password": "",
+  "database": "",
+  "uuidExtension": "pgcrypto",
+  "entities": [
+    "dist/**/*.entity{.ts,.js}"
+  ],
+  "synchronize": true
+}

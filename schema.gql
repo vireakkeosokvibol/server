@@ -3,11 +3,19 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type CatDto {
-  name: String!
-  age: Int!
+type Mutation {
+  create(userInput: UserInput!): UserDto!
 }
 
 type Query {
-  show: [CatDto!]!
+  select: [UserDto!]!
+}
+
+type UserDto {
+  id: ID!
+  username: String!
+}
+
+input UserInput {
+  username: String!
 }
