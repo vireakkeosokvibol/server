@@ -8,12 +8,12 @@ export class UserResolver {
   constructor(private userService: UserService) {}
 
   @Query(() => [UserDto])
-  async select() {
-    return this.userService.select()
+  async select(): Promise<UserDto[]> {
+    return await this.userService.select();
   }
 
   @Mutation(() => UserDto)
-  async create(@Args('userInput') userInput: UserInput) {
-    return this.userService.create(userInput);
+  async create(@Args('userInput') userInput: UserInput): Promise<UserInput> {
+    return await this.userService.create(userInput);
   }
 }

@@ -7,4 +7,10 @@ export class UserDto {
 
   @Field()
   readonly username: string;
+
+  @Field()
+  readonly updated: Date;
+
+  @Field()
+  readonly created: Date;
 }
