@@ -2,9 +2,9 @@
   "type": "postgres",
   "host": "localhost",
   "port": 5433,
-  "username": "bondom_user",
+  "username": "development",
   "password": "development",
-  "database": "bondom_data",
+  "database": "development",
   "entities": [
     "dist/**/*.entity{.ts,.js}"
   ],
