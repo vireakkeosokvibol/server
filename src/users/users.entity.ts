@@ -4,7 +4,9 @@ import {
   Column,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { EmailsEntity } from './emails/emails.entity'
 
 @Entity('users')
 export class UsersEntity {
@@ -13,6 +15,7 @@ export class UsersEntity {
 
   @Column({
     unique: true,
+    nullable: true,
   })
   readonly username: string;
 
@@ -24,4 +27,7 @@ export class UsersEntity {
 
   @CreateDateColumn()
   readonly created: Date;
+
+  @OneToMany(type => EmailsEntity, emails => emails.user)
+  emails: EmailsEntity[];
 }
