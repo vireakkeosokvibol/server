@@ -12,7 +12,7 @@ export class UsersObject {
 @InputType()
 export class UsersInput {
   @Field()
-  readonly email: string;
+  readonly tel: string;
 
   @Field()
   readonly password: string;

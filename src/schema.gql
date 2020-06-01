@@ -12,10 +12,10 @@ type Query {
 }
 
 type Mutation {
-  users(create: UsersInput!): UsersObject!
+  users(signup: UsersInput!): UsersObject!
 }
 
 input UsersInput {
-  email: String!
+  tel: String!
   password: String!
 }

@@ -12,7 +12,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => UsersObject)
-  async users(@Args('create') usersData: UsersInput): Promise<UsersObject> {
-    return this.usersService.create(usersData);
+  async users(@Args('signup') usersData: UsersInput): Promise<UsersObject> {
+    return this.usersService.signup(usersData);
   }
 }

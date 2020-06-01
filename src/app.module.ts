@@ -5,6 +5,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { TelsModule } from './tels/tels.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
+    TelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

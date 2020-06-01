@@ -4,38 +4,37 @@ import { Injectable, Inject } from '@nestjs/common';
 import { UsersInput, UsersObject } from './users.type';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
-import { Repository, getConnection, EntityManager } from 'typeorm';
-import { EmailsEntity } from './emails/emails.entity';
+import { Repository, getConnection } from 'typeorm';
+import { TelsEntity } from 'src/tels/tels.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private usersRepository: Repository<UsersEntity>,
-    @InjectRepository(EmailsEntity)
-    private emailsRepository: Repository<EmailsEntity>,
+    @InjectRepository(TelsEntity)
+    private telsRepository: Repository<TelsEntity>,
   ) {}
 
-  async create(usersInput: UsersInput): Promise<UsersObject> {
+  async signup(usersInput: UsersInput): Promise<UsersObject> {
     /*********************************************************
     Start hash password.                                                               
     *********************************************************/
-    let sha256Password: string; // Hashed password with sha256
-    let bcryptPassword: string; // Hashed password with sha
+    let sha256Password: string;
+    let bcryptPassword: string;
 
     try {
       sha256Password = crypto
         .createHmac('sha256', usersInput.password)
-        .digest('base64');
+        .digest('base64'); // Encode result to base64.
       bcryptPassword = await bcrypt.hash(sha256Password, 12);
     } catch (error) {
-      console.log(error);
       throw new Error('Password hashing error!');
     }
     /********************************************************/
 
     /**************************************************
-    Start sign in transaction.                                                               
+    Start create users transaction.                                                               
     **************************************************/
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
@@ -45,12 +44,12 @@ export class UsersService {
 
     try {
       const users = this.usersRepository.create({
-        password: usersInput.password,
+        password: bcryptPassword,
       });
       await queryRunner.manager.save(users);
 
-      const emails = this.emailsRepository.create({
-        address: usersInput.email,
+      const emails = this.telsRepository.create({
+        number: usersInput.tel,
         user: users.id,
       });
       await queryRunner.manager.save(emails);
