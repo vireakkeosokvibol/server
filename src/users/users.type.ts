@@ -10,10 +10,13 @@ export class UsersObject {
 }
 
 @InputType()
-export class UsersInput {
+export class UsersSignupInput {
   @Field()
   readonly tel: string;
 
   @Field()
   readonly password: string;
+
+  @Field()
+  readonly verificationId: string;
 }

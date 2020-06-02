@@ -5,7 +5,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { TelsModule } from './tels/tels.module';
+import { TelsModule } from './users/tels/tels.module';
 
 @Module({
   imports: [

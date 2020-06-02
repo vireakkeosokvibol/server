@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^7.1.0",
     "apollo-server-fastify": "^2.14.1",
     "bcrypt": "^4.0.1",
+    "firebase-admin": "^8.12.1",
     "graphql": "^15.0.0",
     "graphql-tools": "^6.0.5",
     "pg": "^8.2.1",

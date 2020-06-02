@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { UsersObject, UsersInput } from './users.type';
+import { UsersObject, UsersSignupInput } from './users.type';
 import { UsersService } from './users.service';
 
 @Resolver('Users')
@@ -12,7 +12,9 @@ export class UsersResolver {
   }
 
   @Mutation(() => UsersObject)
-  async users(@Args('signup') usersData: UsersInput): Promise<UsersObject> {
+  async users(
+    @Args('signup') usersData: UsersSignupInput,
+  ): Promise<UsersObject> {
     return this.usersService.signup(usersData);
   }
 }

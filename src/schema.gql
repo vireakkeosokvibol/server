@@ -12,10 +12,11 @@ type Query {
 }
 
 type Mutation {
-  users(signup: UsersInput!): UsersObject!
+  users(signup: UsersSignupInput!): UsersObject!
 }
 
-input UsersInput {
+input UsersSignupInput {
   tel: String!
   password: String!
+  verificationId: String!
 }

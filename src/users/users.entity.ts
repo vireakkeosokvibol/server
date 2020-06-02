@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { TelsEntity } from 'src/tels/tels.entity';
+import { TelsEntity } from './tels/tels.entity';
 
 @Entity('users')
 export class UsersEntity {
@@ -28,6 +28,9 @@ export class UsersEntity {
   @CreateDateColumn()
   readonly created: Date;
 
-  @OneToMany(type => TelsEntity, tels => tels.user)
+  @OneToMany(
+    type => TelsEntity,
+    tels => tels.user,
+  )
   tels: TelsEntity[];
 }

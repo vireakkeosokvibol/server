@@ -1,11 +1,11 @@
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { Injectable, Inject } from '@nestjs/common';
-import { UsersInput, UsersObject } from './users.type';
+import { UsersSignupInput, UsersObject } from './users.type';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { Repository, getConnection } from 'typeorm';
-import { TelsEntity } from 'src/tels/tels.entity';
+import { TelsEntity } from './tels/tels.entity';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +16,7 @@ export class UsersService {
     private telsRepository: Repository<TelsEntity>,
   ) {}
 
-  async signup(usersInput: UsersInput): Promise<UsersObject> {
+  async signup(usersSignupInput: UsersSignupInput): Promise<UsersObject> {
     /*********************************************************
     Start hash password.                                                               
     *********************************************************/
@@ -25,7 +25,7 @@ export class UsersService {
 
     try {
       sha256Password = crypto
-        .createHmac('sha256', usersInput.password)
+        .createHmac('sha256', usersSignupInput.password)
         .digest('base64'); // Encode result to base64.
       bcryptPassword = await bcrypt.hash(sha256Password, 12);
     } catch (error) {
@@ -49,7 +49,7 @@ export class UsersService {
       await queryRunner.manager.save(users);
 
       const emails = this.telsRepository.create({
-        number: usersInput.tel,
+        number: usersSignupInput.tel,
         user: users.id,
       });
       await queryRunner.manager.save(emails);
