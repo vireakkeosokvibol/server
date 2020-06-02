@@ -18,5 +18,5 @@ type Mutation {
 input UsersSignupInput {
   tel: String!
   password: String!
-  verificationId: String!
+  firebaseToken: String!
 }

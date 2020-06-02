@@ -1,11 +1,12 @@
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersSignupInput, UsersObject } from './users.type';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { Repository, getConnection } from 'typeorm';
 import { TelsEntity } from './tels/tels.entity';
+import { auth as Auth } from 'firebase-admin';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,19 @@ export class UsersService {
   ) {}
 
   async signup(usersSignupInput: UsersSignupInput): Promise<UsersObject> {
+    /***************************************************************************
+    Start verify firebase token.                                                               
+    ***************************************************************************/
+
+    try {
+      const decoder = await Auth().verifyIdToken(
+        usersSignupInput.firebaseToken,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+    /**************************************************************************/
+
     /*********************************************************
     Start hash password.                                                               
     *********************************************************/
@@ -48,11 +62,13 @@ export class UsersService {
       });
       await queryRunner.manager.save(users);
 
-      const emails = this.telsRepository.create({
+      const tels = this.telsRepository.create({
         number: usersSignupInput.tel,
+        primary: true,
+        verified: true,
         user: users.id,
       });
-      await queryRunner.manager.save(emails);
+      await queryRunner.manager.save(tels);
 
       await queryRunner.commitTransaction();
     } catch (error) {

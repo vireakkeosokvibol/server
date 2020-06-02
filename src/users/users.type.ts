@@ -18,5 +18,5 @@ export class UsersSignupInput {
   readonly password: string;
 
   @Field()
-  readonly verificationId: string;
+  readonly firebaseToken: string;
 }
