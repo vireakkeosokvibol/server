@@ -8,19 +8,13 @@ import {
 } from 'typeorm';
 import { UsersEntity } from '../users.entity';
 
-@Entity('user_tels')
-export class TelsEntity {
+@Entity('user_sessions')
+export class SessionsEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
-  address: string;
-
-  @Column({ default: false })
-  primary: boolean;
-
-  @Column({ default: false })
-  verified: boolean;
+  @Column({ default: true })
+  expired: boolean;
 
   @UpdateDateColumn()
   updated: Date;

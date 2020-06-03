@@ -2,20 +2,17 @@ import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
 import { UsersSignupInput, UsersObject } from './users.type';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
-import { Repository, getConnection } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { TelsEntity } from './tels/tels.entity';
 import { auth as Auth } from 'firebase-admin';
+import { SessionsEntity } from './sessions/sessions.entity';
+import { sign } from 'jsonwebtoken';
+import { SECRET } from '../../config.json';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(UsersEntity)
-    private usersRepository: Repository<UsersEntity>,
-    @InjectRepository(TelsEntity)
-    private telsRepository: Repository<TelsEntity>,
-  ) {}
+  constructor() {}
 
   async signup(usersSignupInput: UsersSignupInput): Promise<UsersObject> {
     /***************************************************************************
@@ -57,20 +54,30 @@ export class UsersService {
     await queryRunner.startTransaction();
 
     try {
-      const users = this.usersRepository.create({
-        password: bcryptPassword,
-      });
-      await queryRunner.manager.save(users);
+      const usersEntity: UsersEntity = new UsersEntity();
+      usersEntity.password = bcryptPassword;
+      await queryRunner.manager.save(usersEntity);
 
-      const tels = this.telsRepository.create({
-        number: usersSignupInput.tel,
-        primary: true,
-        verified: true,
-        user: users.id,
-      });
-      await queryRunner.manager.save(tels);
+      const telsEntity: TelsEntity = new TelsEntity();
+      telsEntity.address = usersSignupInput.tel;
+      telsEntity.verified = true;
+      telsEntity.primary = true;
+      telsEntity.user = usersEntity;
+      await queryRunner.manager.save(telsEntity);
+
+      const sessionsEntity: SessionsEntity = new SessionsEntity();
+      sessionsEntity.user = usersEntity;
+      await queryRunner.manager.save(sessionsEntity);
 
       await queryRunner.commitTransaction();
+
+      const token: string = sign({ session: sessionsEntity.id }, SECRET);
+
+      return {
+        code: '0',
+        token: token,
+        message: 'success',
+      };
     } catch (error) {
       console.log(error);
       await queryRunner.rollbackTransaction();
@@ -79,10 +86,5 @@ export class UsersService {
       await queryRunner.release();
     }
     /*************************************************/
-
-    return {
-      code: '0',
-      message: 'success',
-    };
   }
 }

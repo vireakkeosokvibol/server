@@ -7,30 +7,37 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TelsEntity } from './tels/tels.entity';
+import { SessionsEntity } from './sessions/sessions.entity';
 
 @Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn('uuid')
-  readonly id: string;
+  id: string;
 
   @Column({
     unique: true,
     nullable: true,
   })
-  readonly username: string;
+  username: string;
 
   @Column()
-  readonly password: string;
+  password: string;
 
   @UpdateDateColumn()
-  readonly updated: Date;
+  updated: Date;
 
   @CreateDateColumn()
-  readonly created: Date;
+  created: Date;
 
   @OneToMany(
     type => TelsEntity,
     tels => tels.user,
   )
   tels: TelsEntity[];
+
+  @OneToMany(
+    type => SessionsEntity,
+    sessions => sessions.user,
+  )
+  sessions: SessionsEntity[];
 }

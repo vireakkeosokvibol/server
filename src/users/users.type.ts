@@ -3,10 +3,13 @@ import { Field, ObjectType, InputType } from '@nestjs/graphql';
 @ObjectType()
 export class UsersObject {
   @Field()
-  code: string;
+  readonly code: string;
 
   @Field()
-  message: string;
+  readonly token: string;
+
+  @Field()
+  readonly message: string;
 }
 
 @InputType()

@@ -4,6 +4,7 @@
 
 type UsersObject {
   code: String!
+  token: String!
   message: String!
 }
 
