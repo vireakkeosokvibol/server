@@ -5,7 +5,6 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { TelsModule } from './users/tels/tels.module';
 
 @Module({
   imports: [
@@ -13,10 +12,10 @@ import { TelsModule } from './users/tels/tels.module';
       debug: true,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
-    TelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

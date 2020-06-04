@@ -8,8 +8,13 @@ type UsersObject {
   message: String!
 }
 
+type SessionsType {
+  id: String!
+}
+
 type Query {
   root: String!
+  addData: SessionsType!
 }
 
 type Mutation {
@@ -20,4 +25,12 @@ input UsersSignupInput {
   tel: String!
   password: String!
   firebaseToken: String!
+}
+
+type Subscription {
+  subscriptionData(token: SessionsInput!): SessionsType!
+}
+
+input SessionsInput {
+  id: String!
 }

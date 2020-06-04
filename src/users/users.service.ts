@@ -8,7 +8,7 @@ import { TelsEntity } from './tels/tels.entity';
 import { auth as Auth } from 'firebase-admin';
 import { SessionsEntity } from './sessions/sessions.entity';
 import { sign } from 'jsonwebtoken';
-import { SECRET } from '../../config.json';
+import { SECRET } from 'config.json';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +20,7 @@ export class UsersService {
     ***************************************************************************/
 
     try {
-      const decoder = await Auth().verifyIdToken(
+      await Auth().verifyIdToken(
         usersSignupInput.firebaseToken,
       );
     } catch (error) {

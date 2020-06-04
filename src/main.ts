@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import * as Firebase from 'firebase-admin';
-import { FIREBASE } from '../config.json';
+import { FIREBASE } from 'config.json';
 
 async function bootstrap() {
   Firebase.initializeApp({
