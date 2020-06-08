@@ -20,9 +20,7 @@ export class UsersService {
     ***************************************************************************/
 
     try {
-      await Auth().verifyIdToken(
-        usersSignupInput.firebaseToken,
-      );
+      await Auth().verifyIdToken(usersSignupInput.firebaseToken);
     } catch (error) {
       throw new Error(error);
     }

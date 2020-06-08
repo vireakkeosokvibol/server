@@ -9,12 +9,16 @@ type UsersObject {
 }
 
 type SessionsType {
-  id: String!
+  expired: Boolean!
 }
 
 type Query {
   root: String!
-  addData: SessionsType!
+  session(token: SessionsInput!): SessionsType!
+}
+
+input SessionsInput {
+  id: String!
 }
 
 type Mutation {
@@ -29,8 +33,4 @@ input UsersSignupInput {
 
 type Subscription {
   subscriptionData(token: SessionsInput!): SessionsType!
-}
-
-input SessionsInput {
-  id: String!
 }

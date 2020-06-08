@@ -1,9 +1,9 @@
 import { ObjectType, Field, InputType } from '@nestjs/graphql';
 
 @ObjectType()
-export class SessionsType{
+export class SessionsType {
   @Field()
-  readonly id: string;
+  readonly expired: boolean;
 }
 
 @InputType()
