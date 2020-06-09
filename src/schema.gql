@@ -32,5 +32,5 @@ input UsersSignupInput {
 }
 
 type Subscription {
-  subscriptionData(token: SessionsInput!): SessionsType!
+  subscriptionData(input: SessionsInput!): SessionsType!
 }

@@ -20,7 +20,7 @@ export class SessionsResolver {
 
   @Subscription(() => SessionsType)
   async subscriptionData(
-    @Args('token') sessionsData: SessionsInput,
+    @Args('input') sessionsData: SessionsInput,
   ): Promise<any> {
     return this.pubSub.asyncIterator(sessionsData.token);
   }

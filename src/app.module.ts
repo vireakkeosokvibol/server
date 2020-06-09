@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       installSubscriptionHandlers: true,
+      useGlobalPrefix: true,
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
