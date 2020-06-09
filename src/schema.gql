@@ -14,11 +14,11 @@ type SessionsType {
 
 type Query {
   root: String!
-  session(token: SessionsInput!): SessionsType!
+  usersSessions(validate: SessionsInput!): SessionsType!
 }
 
 input SessionsInput {
-  id: String!
+  token: String!
 }
 
 type Mutation {

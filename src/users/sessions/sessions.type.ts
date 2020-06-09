@@ -9,5 +9,5 @@ export class SessionsType {
 @InputType()
 export class SessionsInput {
   @Field()
-  readonly id: string;
+  readonly token: string;
 }

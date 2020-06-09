@@ -12,8 +12,8 @@ export class SessionsResolver {
   ) {}
 
   @Query(() => SessionsType)
-  async session(
-    @Args('token') sessionsInput: SessionsInput,
+  async usersSessions(
+    @Args('validate') sessionsInput: SessionsInput,
   ): Promise<SessionsType> {
     return this.sessionsService.validate(sessionsInput);
   }
@@ -22,6 +22,6 @@ export class SessionsResolver {
   async subscriptionData(
     @Args('token') sessionsData: SessionsInput,
   ): Promise<any> {
-    return this.pubSub.asyncIterator(sessionsData.id);
+    return this.pubSub.asyncIterator(sessionsData.token);
   }
 }
