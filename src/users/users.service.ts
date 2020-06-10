@@ -3,12 +3,10 @@ import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
 import { UsersSignupInput, UsersObject } from './users.type';
 import { UsersEntity } from './users.entity';
-import { getConnection } from 'typeorm';
 import { TelsEntity } from './tels/tels.entity';
 import { auth as Auth } from 'firebase-admin';
 import { SessionsEntity } from './sessions/sessions.entity';
-import { sign } from 'jsonwebtoken';
-import { SECRET } from 'config.json';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -45,43 +43,39 @@ export class UsersService {
     /**************************************************
     Start create users transaction.                                                               
     **************************************************/
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
 
     try {
-      const usersEntity: UsersEntity = new UsersEntity();
-      usersEntity.password = bcryptPassword;
-      await queryRunner.manager.save(usersEntity);
+      let token: string;
 
-      const telsEntity: TelsEntity = new TelsEntity();
-      telsEntity.address = usersSignupInput.tel;
-      telsEntity.verified = true;
-      telsEntity.primary = true;
-      telsEntity.user = usersEntity;
-      await queryRunner.manager.save(telsEntity);
+      await getManager().transaction(async transactionalEntityManager => {
+        const usersEntity: UsersEntity = new UsersEntity();
+        usersEntity.password = bcryptPassword;
+        await transactionalEntityManager.save(usersEntity);
 
-      const sessionsEntity: SessionsEntity = new SessionsEntity();
-      sessionsEntity.user = usersEntity;
-      await queryRunner.manager.save(sessionsEntity);
+        const telsEntity: TelsEntity = new TelsEntity();
+        telsEntity.address = usersSignupInput.tel;
+        telsEntity.verified = true;
+        telsEntity.primary = true;
+        telsEntity.user = usersEntity;
+        await transactionalEntityManager.save(telsEntity);
 
-      await queryRunner.commitTransaction();
+        const sessionsEntity: SessionsEntity = new SessionsEntity();
+        sessionsEntity.user = usersEntity;
+        await transactionalEntityManager.save(sessionsEntity);
 
-      const token: string = sign({ session: sessionsEntity.id }, SECRET);
+        token = Buffer.from(JSON.stringify({ id: sessionsEntity.id })).toString(
+          'base64',
+        );
+      });
 
       return {
         code: '0',
-        token: token,
+        token,
         message: 'success',
       };
     } catch (error) {
       console.log(error);
-      await queryRunner.rollbackTransaction();
       throw new Error('Transaction error!');
-    } finally {
-      await queryRunner.release();
     }
     /*************************************************/
   }

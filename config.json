@@ -1,5 +1,7 @@
 {
   "FIREBASE": {},
-  "SECRET": "",
-  "REDIS": ""
+  "REDIS": {
+    "host": "localhost",
+    "port": 6379
+  }
 }

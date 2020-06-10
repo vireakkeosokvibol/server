@@ -13,7 +13,7 @@ export class SessionsEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   expired: boolean;
 
   @UpdateDateColumn()

@@ -24,8 +24,8 @@ export class SessionsResolver {
   ): Promise<SessionsType> {
     this.sessionsService.signOut(sessionsInput);
     this.pubSub.publish(sessionsInput.token, {
-      ['userSessionsSubscription']: {expired: true}
-    })
+      ['userSessionsSubscription']: { expired: true },
+    });
     return { expired: true };
   }
 
