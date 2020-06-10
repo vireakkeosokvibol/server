@@ -14,7 +14,7 @@ type SessionsType {
 
 type Query {
   root: String!
-  usersSessions(validate: SessionsInput!): SessionsType!
+  userSessionsValidate(input: SessionsInput!): SessionsType!
 }
 
 input SessionsInput {
@@ -22,7 +22,7 @@ input SessionsInput {
 }
 
 type Mutation {
-  users(signup: UsersSignupInput!): UsersObject!
+  usersSignup(input: UsersSignupInput!): UsersObject!
   userSessionsSignout(input: SessionsInput!): SessionsType!
 }
 
@@ -33,5 +33,5 @@ input UsersSignupInput {
 }
 
 type Subscription {
-  subscriptionData(input: SessionsInput!): SessionsType!
+  userSessionsSubscription(input: SessionsInput!): SessionsType!
 }

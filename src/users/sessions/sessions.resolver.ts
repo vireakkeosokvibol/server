@@ -12,8 +12,8 @@ export class SessionsResolver {
   ) {}
 
   @Query(() => SessionsType)
-  async usersSessions(
-    @Args('validate') sessionsInput: SessionsInput,
+  async userSessionsValidate(
+    @Args('input') sessionsInput: SessionsInput,
   ): Promise<SessionsType> {
     return this.sessionsService.validate(sessionsInput);
   }
@@ -22,14 +22,15 @@ export class SessionsResolver {
   async userSessionsSignout(
     @Args('input') sessionsInput: SessionsInput,
   ): Promise<SessionsType> {
+    this.sessionsService.signOut(sessionsInput);
     this.pubSub.publish(sessionsInput.token, {
-      ['subscriptionData']: {expired: true}
+      ['userSessionsSubscription']: {expired: true}
     })
     return { expired: true };
   }
 
   @Subscription(() => SessionsType)
-  async subscriptionData(
+  async userSessionsSubscription(
     @Args('input') sessionsData: SessionsInput,
   ): Promise<any> {
     return this.pubSub.asyncIterator(sessionsData.token);
