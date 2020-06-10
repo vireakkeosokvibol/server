@@ -1,4 +1,4 @@
-import { Resolver, Subscription, Query, Args } from '@nestjs/graphql';
+import { Resolver, Subscription, Query, Args, Mutation } from '@nestjs/graphql';
 import { SessionsType, SessionsInput } from './sessions.type';
 import { PubSub } from 'graphql-subscriptions';
 import { Inject } from '@nestjs/common';
@@ -16,6 +16,16 @@ export class SessionsResolver {
     @Args('validate') sessionsInput: SessionsInput,
   ): Promise<SessionsType> {
     return this.sessionsService.validate(sessionsInput);
+  }
+
+  @Mutation(() => SessionsType)
+  async userSessionsSignout(
+    @Args('input') sessionsInput: SessionsInput,
+  ): Promise<SessionsType> {
+    this.pubSub.publish(sessionsInput.token, {
+      ['subscriptionData']: {expired: true}
+    })
+    return { expired: true };
   }
 
   @Subscription(() => SessionsType)

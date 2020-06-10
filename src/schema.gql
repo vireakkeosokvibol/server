@@ -23,6 +23,7 @@ input SessionsInput {
 
 type Mutation {
   users(signup: UsersSignupInput!): UsersObject!
+  userSessionsSignout(input: SessionsInput!): SessionsType!
 }
 
 input UsersSignupInput {
