@@ -5,7 +5,7 @@ import { SessionsEntity } from './sessions.entity';
 
 @Injectable()
 export class SessionsService {
-  async signOut(sessionsInput): Promise<void> {
+  async signout(sessionsInput): Promise<void> {
     const token: { id: string } = JSON.parse(
       Buffer.from(sessionsInput.token, 'base64').toString(),
     );

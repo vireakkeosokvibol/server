@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
-import { UsersSignupInput, UsersObject } from './users.type';
+import { UsersSignupInput, UsersObject, UsersSigninInput } from './users.type';
 import { UsersEntity } from './users.entity';
 import { TelsEntity } from './tels/tels.entity';
 import { auth as Auth } from 'firebase-admin';
@@ -10,7 +10,7 @@ import { getManager } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor() {}
+  constructor() { }
 
   async signup(usersSignupInput: UsersSignupInput): Promise<UsersObject> {
     /***************************************************************************
@@ -69,7 +69,7 @@ export class UsersService {
       });
 
       return {
-        code: '0',
+        code: 0,
         token,
         message: 'success',
       };
@@ -78,5 +78,10 @@ export class UsersService {
       throw new Error('Transaction error!');
     }
     /*************************************************/
+  }
+
+  async signin(usersInput: UsersSigninInput): Promise<UsersObject> {
+    // return { message: '', code: 0, token: 'test' };
+    throw new Error('incorrect password!');
   }
 }

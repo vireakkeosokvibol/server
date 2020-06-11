@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type UsersObject {
-  code: String!
+  code: Float!
   token: String!
   message: String!
 }
@@ -23,6 +23,7 @@ input SessionsInput {
 
 type Mutation {
   usersSignup(input: UsersSignupInput!): UsersObject!
+  usersSignin(input: UsersSigninInput!): UsersObject!
   userSessionsSignout(input: SessionsInput!): SessionsType!
 }
 
@@ -30,6 +31,11 @@ input UsersSignupInput {
   tel: String!
   password: String!
   firebaseToken: String!
+}
+
+input UsersSigninInput {
+  account: String!
+  password: String!
 }
 
 type Subscription {

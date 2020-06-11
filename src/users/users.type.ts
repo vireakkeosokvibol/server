@@ -3,7 +3,7 @@ import { Field, ObjectType, InputType } from '@nestjs/graphql';
 @ObjectType()
 export class UsersObject {
   @Field()
-  readonly code: string;
+  readonly code: number;
 
   @Field()
   readonly token: string;
@@ -22,4 +22,13 @@ export class UsersSignupInput {
 
   @Field()
   readonly firebaseToken: string;
+}
+
+@InputType()
+export class UsersSigninInput {
+  @Field()
+  readonly account: string;
+
+  @Field()
+  readonly password: string
 }

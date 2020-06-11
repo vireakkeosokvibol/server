@@ -22,7 +22,7 @@ export class SessionsResolver {
   async userSessionsSignout(
     @Args('input') sessionsInput: SessionsInput,
   ): Promise<SessionsType> {
-    this.sessionsService.signOut(sessionsInput);
+    this.sessionsService.signout(sessionsInput);
     this.pubSub.publish(sessionsInput.token, {
       ['userSessionsSubscription']: { expired: true },
     });
